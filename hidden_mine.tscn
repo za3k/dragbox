@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv5b6wexe68do"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_artpk"]
+radius = 26.0
+
+[node name="hidden mine" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_artpk")
+
+[node name="Polygon2D" type="Polygon2D" parent="CollisionShape2D"]
+scale = Vector2(0.168919, 0.148148)
+color = Color(0.250171, 0.352634, 0.916956, 1)
+polygon = PackedVector2Array(0, 168.75, -153.92, 0, 0, -162, 153.92, 0)

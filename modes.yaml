@@ -1,0 +1,394 @@
+types:
+	- &string "string"
+	- &bool "bool"
+	- &int "int"
+options:
+	name: *string
+	players: [1,2]
+	size: [*int,*int]
+	mines:
+		- *int
+		- &density_based "density_based"
+	mine_placement:
+		- &random "random"
+	mine_density:
+		- &easy "easy"
+		- &medium "medium"
+		- &hard "hard"
+	time_limit:
+		- &unlimited 0
+		- *int
+	turn_time_limit:
+		- *unlimited
+		- *int
+	score: &SCORE
+		- &none "none"
+		- &move_count "move_count"
+		- &percent_claimed "percent_claimed"
+	leaderboard: *SCORE
+	overlap_reveal: &REVEAL
+		- *none
+		- &public "public"
+		- &private "private"
+	mine_reveal: *REVEAL
+	claim_reveal: *REVEAL
+	your_mines_count: *bool
+	their_mines_count: *bool
+	player_placement:
+		- &option: "option"
+		- &manual: "manual"
+		- *random
+	no_mines: &OUTCOME
+		- &claim "claim"
+		- &highlight "highlight"
+		- &lose "lose"
+		- &fail "fail"
+		- &fail_with_outline "fail_with_outline"
+	one_mine: *OUTCOME
+	multiple_mines: *OUTCOME
+	overlap:
+		- &allowed "allowed"
+		- &subtract "subtract"
+		- *fail
+		- &not_allowed "not_allowed"
+		- *lose
+	# OR array of same, for below 3
+	end_condition: &CONDITION
+		- &claim_99 "claim_99"
+		- &time_limit "time_limit"
+		- &turn_lmit "turn_limit"
+		- &claim_majority "claim_majority"
+		- &reveal_all_mines "reveal_all_mines"
+	win_condition: *CONDITION
+	lose_condition: *CONDITION 
+	new_game_plus:
+		- &always "always"
+		- &claim_90 "claim_90"
+		- &never "never"
+defaults:
+	1: 
+		# 1-player has end_condition + score (+ new_game_plus)
+		size: [100,100]
+		mines: density_based
+		mine_density: easy
+		mine_placement: random
+		time_limit: 60
+	2:
+		# 2-player has either
+		#              end_condition + score OR
+		#              win_condition
+		#              lose_condition
+		size: [100,100]
+		mines: density_based
+		mine_density: medium
+		time_limit: 60 # If there is a time limit only
+		turn_time_limit: 30 # How long do you have to think about your turn? 0==unlimited
+		turn_limit: 10 # If there is a turn limit only
+		overlap: allowed # Allowed, subtract, fail, not_allowed, lose
+		leaderboard: none # Displays one number, same as from "score"
+		overlap_reveal: none # One of: none, private, public
+		your_mines_count: false # for stuff like 'one_mine'
+		their_mines_count: true
+		player_placement: option # Either manual, option, or random
+modes:
+	-
+		name: "Minefield (turn score)"
+		players: 1
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: lose
+		end_condition: claim_99
+		score: move_count
+		new_game_plus: always
+	-
+		name: "Minefield (percent score)"
+		players: 1
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: lose
+		end_condition: turn_limit
+		moves: 10
+		score: percent_claimed
+		new_game_plus: claim_90
+	-
+		name: "Sheep Fencing (turn score)"
+		players: 1
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail_with_outline
+		end_condition: claim_99
+		score: move_count
+		new_game_plus: always
+	-
+		name: "Sheep Fencing (percent score)"
+		players: 1
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail_with_outline
+		end_condition: turn_limit
+		score: percent_claimed
+		new_game_plus: claim_90
+	-
+		name: "Gold Rush 1"
+		players: 1
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		end_condition: time_limit
+		score: percent_claimed
+		new_game_plus: claim_90
+	-
+		name: "Battleship"
+		players: 2
+		turns: true
+		mine_placement: player
+		your_mines_claimable: true
+
+		mines: 5
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		claim_reveal: private
+		mine_reveal: public
+		win_condition: reveal_all_mines
+	-
+		name: "Minewar"
+		players: 2
+		turns: true
+		mine_placement: random
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: lose
+		claim_reveal: private
+		mine_reveal: private
+		win_condition: reveal_all_mines
+	-
+		name: "Minewar Race"
+		players: 2
+		turns: false
+		mine_placement: random
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: lose
+		claim_reveal: private
+		mine_reveal: private
+		win_condition: reveal_all_mines
+	-
+		name: "Gold Rush"
+		players: 2
+		turns: false
+		mine_placement: random
+
+		no_mines: claim
+		claim_reveal: public
+		one_mine: highlight
+		mine_reveal: private
+		multiple_mines: fail
+		overlap: subtract
+
+		win_condition: claim_majority
+		leaderboard: percent_claimed
+	-
+		name: "Gold Rush Puzzle"
+		players: 2
+		turns: true
+		mine_placement: random
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: subtract
+		claim_reveal: public
+		mine_reveal: private
+
+		win_condition: claim_majority
+		leaderboard: percent_claimed
+	-
+		name: "Sheep Fencing"
+		players: 2
+		turns: true
+		mine_placement: random
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		claim_reveal: private
+		mine_reveal: public
+		leaderboard: percent_claimed
+		end_condition: turn_limit
+		score: percent_claimed
+	-
+		name: "Sheep Fencing Race"
+		players: 2
+		turns: false
+		mine_placement: random
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		claim_reveal: private
+		mine_reveal: public
+		leaderboard: percent_claimed
+		end_condition: time_limit
+		score: percent_claimed
+	-
+		name: "Hidden Claims"
+		players: 2
+		turns: true
+		mine_placement: random
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+		no_mines_overlap: fail_and_highlight
+
+		overlap_reveal: private
+		claim_reveal: private
+		mine_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Hidden Claims Race"
+		players: 2
+		turns: false
+		mine_placement: random
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+		no_mines_overlap: fail_and_highlight
+
+		overlap_reveal: private
+		claim_reveal: private
+		mine_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Open Seas"
+		players: 2
+		turns: true
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: subtract
+
+		claim_reveal: public
+		mine_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Open Seas Race"
+		players: 2
+		turns: false
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: subtract
+
+		claim_reveal: public
+		mine_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Closed Seas"
+		players: 2
+		turns: true
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+
+		claim_reveal: private
+		mine_reveal: public
+		overlap_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Closed Seas Race"
+		players: 2
+		turns: false
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+
+		claim_reveal: private
+		mine_reveal: public
+		overlap_reveal: public
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Hidden Seas"
+		players: 2
+		turns: true
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+
+		claim_reveal: private
+		mine_reveal: private
+		overlap_reveal: private
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Hidden Seas Race"
+		players: 2
+		turns: false
+		mine_placement: player
+		your_mines_claimable: false
+
+		no_mines: claim
+		one_mine: highlight
+		multiple_mines: fail
+		overlap: fail
+
+		claim_reveal: private
+		mine_reveal: private
+		overlap_reveal: private
+		leaderboard: percent_claimed
+		win_condition: claim_majority
+	-
+		name: "Chicken"
+		players: 2
+		turns: true
+		mine_placement: random
+
+		no_mines: lose
+		one_mine: highlight
+		multiple_mines: highlight
+		all_mines: lose
+
+		overlap: not_allowed
+		claim_reveal: public
+		mine_reveal: public
+		lose_condition: [claim_majority, reveal_all_mines]
+	-
+		name: "Blind Chicken"
+		players: 2
+		turns: true
+		mine_placement: random
+
+		no_mines: lose
+		one_mine: highlight
+		multiple_mines: highlight
+
+		overlap: lose
+		claim_reveal: private
+		mine_reveal: private
+		lose_condition: [claim_majority, reveal_all_mines]

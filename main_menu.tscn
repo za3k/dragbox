@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3pfsaxk6o5cn"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_4hlv0"]
+[ext_resource type="Theme" uid="uid://dle27oe7j4g5c" path="res://menu_theme.tres" id="1_6mlus"]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_4hlv0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 13.0
+offset_top = 205.0
+offset_right = 565.0
+offset_bottom = 390.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "One player"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+text = "Minefield (turn score)"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+disabled = true
+text = "Minefield (percent score)"
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+disabled = true
+text = "Sheep Fencing (turn score)"
+
+[node name="Button4" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+disabled = true
+text = "Sheep Fencing (percent score)"
+
+[node name="Button5" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+disabled = true
+text = "Gold Rush"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 421.0
+offset_top = 18.0
+offset_right = 835.0
+offset_bottom = 166.0
+theme_override_colors/font_color = Color(0.389648, 0.875, 0.624741, 1)
+theme_override_colors/font_outline_color = Color(0.604148, 0.0894545, 0.709679, 1)
+theme_override_constants/outline_size = 74
+theme_override_font_sizes/font_size = 101
+text = "Dragbox"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+offset_left = 584.0
+offset_top = 205.0
+offset_right = 1136.0
+offset_bottom = 403.0
+
+[node name="Label" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Two players"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("1_6mlus")
+disabled = true
+text = "(not done)"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="play_minefield1"]

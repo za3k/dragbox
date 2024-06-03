@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://biainbm82limn"]
+
+[ext_resource type="Script" path="res://playing_field.gd" id="1_w0vli"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="game name" type="Label" parent="Node2D"]
+offset_left = 803.0
+offset_top = 18.0
+offset_right = 1108.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.641697, 0.148247, 0.142053, 1)
+theme_override_font_sizes/font_size = 29
+text = "Minefield 1"
+
+[node name="settings" type="Label" parent="Node2D"]
+offset_left = 803.0
+offset_top = 61.0
+offset_right = 1108.0
+offset_bottom = 110.0
+text = "Difficulty: Easy
+Size: Default"
+
+[node name="rules" type="Label" parent="Node2D"]
+offset_left = 760.0
+offset_top = 165.0
+offset_right = 1141.0
+offset_bottom = 318.0
+text = "Rules:
+
+- You draw one box at a time.
+- If your box contains 2+ mines, you lose.
+- If your box contains 1 mine, you reveal the mine
+- If your box contains 0 mines, you claim the box.
+"
+
+[node name="call to action" type="Label" parent="Node2D"]
+offset_left = 212.0
+offset_top = 50.0
+offset_right = 496.0
+offset_bottom = 83.0
+text = "Draw a box below using your mouse."
+
+[node name="goal" type="Label" parent="Node2D"]
+offset_left = 756.0
+offset_top = 346.0
+offset_right = 1137.0
+offset_bottom = 369.0
+text = "Goal (map claimed): {CLAIMED}/99%"
+
+[node name="score" type="Label" parent="Node2D"]
+offset_left = 758.0
+offset_top = 405.0
+offset_right = 1139.0
+offset_bottom = 432.0
+text = "Score (turns used): {TURNS}"
+
+[node name="playing_field" type="ColorRect" parent="Node2D"]
+offset_left = 13.0
+offset_top = 97.0
+offset_right = 731.0
+offset_bottom = 625.0
+script = ExtResource("1_w0vli")
+
+[node name="mines" type="Node2D" parent="Node2D/playing_field"]
+
+[node name="claims" type="Node" parent="Node2D/playing_field"]
+
+[connection signal="gui_input" from="Node2D/playing_field" to="Node2D/playing_field" method="_on_gui_input"]
