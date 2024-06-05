@@ -6,8 +6,8 @@ enum Status { NONE, PREVIEW, COMPLETE }
 var status := Status.NONE
 @onready var preview : PreviewRect = $preview
 
-var preview_color = Color.BLUE_VIOLET
-var final_color = Color.CORAL
+@export var preview_color : Color
+@export var final_color : Color
 
 func start(pos):
 	if status == Status.COMPLETE: return
@@ -38,6 +38,7 @@ func acknowledge():
 	assert(status == Status.COMPLETE)
 	status = Status.NONE
 	# (For debugging) Don't update the preview yet.
+	updatePreview()
 	
 func is_visible():
 	return status != Status.NONE

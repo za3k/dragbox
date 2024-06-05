@@ -1,9 +1,13 @@
 class_name PlayingField extends ColorRect
 var hidden_mine := preload("res://hidden_mine.tscn")
 
+## The player did something invalid
+func warn():
+	pass
+
 func turn(rect: Rect2):
-	var intersecting:Array[Area2D] = []
-	for mine:Area2D in $mines.get_children():
+	var intersecting:Array[Mine] = []
+	for mine in $mines.get_children():
 		if rect.has_point(mine.position):
 			intersecting.append(mine)
 	
@@ -38,12 +42,16 @@ func highlight(mine: Area2D):
 	# Wait a second or two
 	$dragbox.acknowledge()
 
-func lose_game_mines(mines: Array[Area2D]):
+func lose_game_mines(mines: Array[Mine]):
 	# Play BOOM!!! explosion
 	# Highlight mines you blew up
 	# Add your rectangle as a claim, maybe in another color
 	# Wait a second or two
 	$dragbox.acknowledge()
+	for mine in mines:
+		mine.reveal()
+		mine.flash(0)
+		mine.explode()
 	lose_game()
 
 func lose_game():

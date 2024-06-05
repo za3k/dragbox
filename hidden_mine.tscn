@@ -1,9 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cv5b6wexe68do"]
+[gd_scene load_steps=6 format=3 uid="uid://cv5b6wexe68do"]
+
+[ext_resource type="Script" path="res://hidden_mine.gd" id="1_yjo5g"]
+[ext_resource type="AudioStream" uid="uid://p7r5c6ba6j6u" path="res://explosion.mp3" id="2_d3otd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_artpk"]
 radius = 26.0
 
+[sub_resource type="Curve" id="Curve_6x0dl"]
+_data = [Vector2(0.0459459, 0.986402), 0.0, 0.0, 0, 0, Vector2(0.208108, 0.517259), -1.94394, -1.94394, 0, 0, Vector2(0.894595, 0.0957112), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_4v6n6"]
+offsets = PackedFloat32Array(0.0497076, 0.28655)
+colors = PackedColorArray(0.893802, 0.586859, 0.178533, 1, 0.765625, 0.0657959, 0.0657959, 1)
+
 [node name="hidden mine" type="Area2D"]
+scale = Vector2(0.15, 0.15)
+script = ExtResource("1_yjo5g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_artpk")
@@ -12,3 +25,22 @@ shape = SubResource("CircleShape2D_artpk")
 scale = Vector2(0.168919, 0.148148)
 color = Color(0.250171, 0.352634, 0.916956, 1)
 polygon = PackedVector2Array(0, 168.75, -153.92, 0, 0, -162, 153.92, 0)
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_d3otd")
+volume_db = -25.623
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 200
+one_shot = true
+explosiveness = 0.83
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 579.48
+initial_velocity_max = 912.81
+scale_amount_min = 5.2
+scale_amount_max = 5.2
+scale_amount_curve = SubResource("Curve_6x0dl")
+color = Color(1, 1, 1, 0.733333)
+color_ramp = SubResource("Gradient_4v6n6")
