@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://biainbm82limn"]
+[gd_scene load_steps=4 format=3 uid="uid://biainbm82limn"]
 
 [ext_resource type="Script" path="res://playing_field.gd" id="1_w0vli"]
+[ext_resource type="Script" path="res://drag_box.gd" id="2_xk0sa"]
+[ext_resource type="Script" path="res://rectangle_preview.gd" id="3_03qtw"]
 
 [node name="Game" type="Node2D"]
 
@@ -66,6 +68,15 @@ script = ExtResource("1_w0vli")
 
 [node name="mines" type="Node2D" parent="Node2D/playing_field"]
 
-[node name="claims" type="Node" parent="Node2D/playing_field"]
+[node name="claims" type="Node2D" parent="Node2D/playing_field"]
+
+[node name="dragbox" type="Node2D" parent="Node2D/playing_field"]
+script = ExtResource("2_xk0sa")
+
+[node name="preview" type="ColorRect" parent="Node2D/playing_field/dragbox"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_03qtw")
 
 [connection signal="gui_input" from="Node2D/playing_field" to="Node2D/playing_field" method="_on_gui_input"]
+[connection signal="rect_drawn" from="Node2D/playing_field/dragbox" to="Node2D/playing_field" method="turn"]
