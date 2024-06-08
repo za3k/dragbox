@@ -17,6 +17,8 @@ colors = PackedColorArray(0.893802, 0.586859, 0.178533, 1, 0.765625, 0.0657959, 
 [node name="hidden mine" type="Area2D"]
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_yjo5g")
+revealed_color = Color(0.214352, 0.287018, 0.762024, 1)
+hidden_color = Color(0, 0.898039, 0, 0.588235)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_artpk")

@@ -5,12 +5,12 @@ signal rect_drawn(rect: Rect2)
 enum Status { NONE, PREVIEW, COMPLETE }
 var status := Status.NONE
 @onready var preview : PreviewRect = $preview
-
 @export var preview_color : Color
 @export var final_color : Color
+var enabled = true
 
 func start(pos):
-	if status == Status.COMPLETE: return
+	if status == Status.COMPLETE or not enabled: return
 	assert(status == Status.NONE)
 	preview.p1 = pos
 	preview.p2 = pos
@@ -18,13 +18,13 @@ func start(pos):
 	updatePreview()
 
 func update(pos):
-	if status == Status.COMPLETE: return
+	if status == Status.COMPLETE or not enabled: return
 	if status == Status.PREVIEW:
 		preview.p2 = pos
 		updatePreview()
 
 func stop(pos):
-	if status == Status.COMPLETE: return
+	if status == Status.COMPLETE or not enabled: return
 	assert(status == Status.PREVIEW)
 	preview.p2 = pos
 	status = Status.COMPLETE
@@ -45,6 +45,11 @@ func is_visible():
 	
 func is_preview():
 	return status == Status.PREVIEW
+
+func enable():
+	enabled = true
+func disable():
+	enabled = false
 
 func updatePreview():
 	if is_visible():

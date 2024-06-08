@@ -1,12 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://biainbm82limn"]
+[gd_scene load_steps=5 format=3 uid="uid://biainbm82limn"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_w0vli"]
 [ext_resource type="Script" path="res://drag_box.gd" id="2_xk0sa"]
 [ext_resource type="Script" path="res://rectangle_preview.gd" id="3_03qtw"]
 
+[sub_resource type="Theme" id="Theme_fryca"]
+
 [node name="Game" type="Node2D"]
 
 [node name="Node2D" type="Node2D" parent="."]
+scale = Vector2(0.999901, 1.00261)
+script = ExtResource("1_w0vli")
+singleplayer_claim_color = Color(0.698247, 1, 0.671603, 1)
 
 [node name="game name" type="Label" parent="Node2D"]
 offset_left = 803.0
@@ -26,10 +31,10 @@ text = "Difficulty: Easy
 Size: Default"
 
 [node name="rules" type="Label" parent="Node2D"]
-offset_left = 760.0
-offset_top = 165.0
-offset_right = 1141.0
-offset_bottom = 318.0
+offset_left = 756.075
+offset_top = 165.567
+offset_right = 1137.07
+offset_bottom = 318.567
 text = "Rules:
 
 - You draw one box at a time.
@@ -46,17 +51,17 @@ offset_bottom = 83.0
 text = "Draw a box below using your mouse."
 
 [node name="goal" type="Label" parent="Node2D"]
-offset_left = 756.0
-offset_top = 346.0
-offset_right = 1137.0
-offset_bottom = 369.0
+offset_left = 756.075
+offset_top = 336.121
+offset_right = 1137.07
+offset_bottom = 359.121
 text = "Goal (map claimed): {CLAIMED}/99%"
 
 [node name="score" type="Label" parent="Node2D"]
-offset_left = 758.0
-offset_top = 405.0
-offset_right = 1139.0
-offset_bottom = 432.0
+offset_left = 756.075
+offset_top = 399.954
+offset_right = 1137.07
+offset_bottom = 426.954
 text = "Score (turns used): {TURNS}"
 
 [node name="playing_field" type="ColorRect" parent="Node2D"]
@@ -64,13 +69,15 @@ offset_left = 13.0
 offset_top = 97.0
 offset_right = 731.0
 offset_bottom = 625.0
-script = ExtResource("1_w0vli")
 
 [node name="claims" type="Node2D" parent="Node2D/playing_field"]
+unique_name_in_owner = true
 
 [node name="mines" type="Node2D" parent="Node2D/playing_field"]
+unique_name_in_owner = true
 
 [node name="dragbox" type="Node2D" parent="Node2D/playing_field"]
+unique_name_in_owner = true
 script = ExtResource("2_xk0sa")
 preview_color = Color(0.611765, 0.439216, 0.0941176, 0.501961)
 final_color = Color(0.298039, 0.0666667, 0.466667, 0.890196)
@@ -80,5 +87,65 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_03qtw")
 
-[connection signal="gui_input" from="Node2D/playing_field" to="Node2D/playing_field" method="_on_gui_input"]
-[connection signal="rect_drawn" from="Node2D/playing_field/dragbox" to="Node2D/playing_field" method="turn"]
+[node name="lost" type="Node2D" parent="Node2D"]
+visible = false
+
+[node name="you lost" type="Label" parent="Node2D/lost"]
+offset_left = 756.075
+offset_top = 488.722
+offset_right = 1137.07
+offset_bottom = 515.722
+theme_override_colors/font_color = Color(0.862745, 0, 0, 1)
+text = "You lost. :(  Try again?"
+
+[node name="buttons" type="HBoxContainer" parent="Node2D/lost"]
+offset_left = 760.075
+offset_top = 543.579
+offset_right = 941.075
+offset_bottom = 583.579
+metadata/_edit_group_ = true
+
+[node name="TryAgain" type="Button" parent="Node2D/lost/buttons"]
+layout_mode = 2
+theme = SubResource("Theme_fryca")
+text = "Try Again"
+
+[node name="MainMenu" type="Button" parent="Node2D/lost/buttons"]
+layout_mode = 2
+theme = SubResource("Theme_fryca")
+text = "Main Menu"
+
+[node name="won" type="Node2D" parent="Node2D"]
+visible = false
+
+[node name="you lost2" type="Label" parent="Node2D/won"]
+offset_left = 756.075
+offset_top = 488.722
+offset_right = 1137.07
+offset_bottom = 515.722
+theme_override_colors/font_color = Color(0.415686, 0.968627, 0.266667, 1)
+text = "You won! :) Play again?"
+
+[node name="buttons2" type="HBoxContainer" parent="Node2D/won"]
+offset_left = 760.075
+offset_top = 543.579
+offset_right = 941.075
+offset_bottom = 583.579
+metadata/_edit_group_ = true
+
+[node name="TryAgain" type="Button" parent="Node2D/won/buttons2"]
+layout_mode = 2
+theme = SubResource("Theme_fryca")
+text = "Try Again"
+
+[node name="MainMenu" type="Button" parent="Node2D/won/buttons2"]
+layout_mode = 2
+theme = SubResource("Theme_fryca")
+text = "Main Menu"
+
+[connection signal="gui_input" from="Node2D/playing_field" to="Node2D" method="_on_gui_input"]
+[connection signal="rect_drawn" from="Node2D/playing_field/dragbox" to="Node2D" method="turn"]
+[connection signal="pressed" from="Node2D/lost/buttons/TryAgain" to="Node2D" method="new_game"]
+[connection signal="pressed" from="Node2D/lost/buttons/MainMenu" to="Node2D" method="exit_to_menu"]
+[connection signal="pressed" from="Node2D/won/buttons2/TryAgain" to="Node2D" method="new_game"]
+[connection signal="pressed" from="Node2D/won/buttons2/MainMenu" to="Node2D" method="exit_to_menu"]
