@@ -17,30 +17,30 @@ layout_mode = 2
 text = "One player"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Minefield" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_6mlus")
-text = "Minefield (turn score)"
+text = "Minefield"
 
-[node name="Button2" type="Button" parent="VBoxContainer"]
+[node name="Minesweeper" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_6mlus")
 disabled = true
-text = "Minefield (percent score)"
+text = "Minesweeper"
 
-[node name="Button3" type="Button" parent="VBoxContainer"]
+[node name="SheepFencing1" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_6mlus")
 disabled = true
 text = "Sheep Fencing (turn score)"
 
-[node name="Button4" type="Button" parent="VBoxContainer"]
+[node name="SheepFencing2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_6mlus")
 disabled = true
 text = "Sheep Fencing (percent score)"
 
-[node name="Button5" type="Button" parent="VBoxContainer"]
+[node name="GoldRush" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_6mlus")
 disabled = true
@@ -75,4 +75,13 @@ theme = ExtResource("1_6mlus")
 disabled = true
 text = "(not done)"
 
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="play_minefield1"]
+[node name="Quit Game" type="Button" parent="."]
+offset_left = 965.0
+offset_top = 598.0
+offset_right = 1136.0
+offset_bottom = 629.0
+theme = ExtResource("1_6mlus")
+text = "Exit Game"
+
+[connection signal="pressed" from="VBoxContainer/Minefield" to="." method="play_minefield1"]
+[connection signal="pressed" from="Quit Game" to="." method="quit"]

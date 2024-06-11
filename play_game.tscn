@@ -1,8 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://biainbm82limn"]
+[gd_scene load_steps=11 format=3 uid="uid://biainbm82limn"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_w0vli"]
+[ext_resource type="AudioStream" uid="uid://d2nmodmqg0c40" path="res://level-win.mp3" id="2_1g7j2"]
 [ext_resource type="Script" path="res://drag_box.gd" id="2_xk0sa"]
 [ext_resource type="Script" path="res://rectangle_preview.gd" id="3_03qtw"]
+[ext_resource type="Theme" uid="uid://dle27oe7j4g5c" path="res://menu_theme.tres" id="4_pd1oy"]
+[ext_resource type="AudioStream" uid="uid://wipggf4j48xu" path="res://claim.mp3" id="6_6mqeq"]
+[ext_resource type="AudioStream" uid="uid://ba387tpmtebc8" path="res://warn.mp3" id="7_2uaug"]
+[ext_resource type="AudioStream" uid="uid://cbw4ku7i33qd1" path="res://illegal-action.mp3" id="8_r6hl3"]
+[ext_resource type="AudioStream" uid="uid://ca8fy4arltrk6" path="res://level-lost.mp3" id="9_aw07f"]
 
 [sub_resource type="Theme" id="Theme_fryca"]
 
@@ -20,21 +26,20 @@ offset_right = 1108.0
 offset_bottom = 58.0
 theme_override_colors/font_color = Color(0.641697, 0.148247, 0.142053, 1)
 theme_override_font_sizes/font_size = 29
-text = "Minefield 1"
+text = "Minefield"
 
 [node name="settings" type="Label" parent="Node2D"]
-offset_left = 803.0
-offset_top = 61.0
-offset_right = 1108.0
-offset_bottom = 110.0
-text = "Difficulty: Easy
-Size: Default"
+offset_left = 803.08
+offset_top = 57.849
+offset_right = 1108.08
+offset_bottom = 106.849
+text = "Difficulty: Medium (10 mines)"
 
 [node name="rules" type="Label" parent="Node2D"]
 offset_left = 756.075
-offset_top = 165.567
+offset_top = 172.55
 offset_right = 1137.07
-offset_bottom = 318.567
+offset_bottom = 325.55
 text = "Rules:
 
 - You draw one box at a time.
@@ -52,16 +57,16 @@ text = "Draw a box below using your mouse."
 
 [node name="goal" type="Label" parent="Node2D"]
 offset_left = 756.075
-offset_top = 336.121
+offset_top = 375.021
 offset_right = 1137.07
-offset_bottom = 359.121
+offset_bottom = 398.021
 text = "Goal (map claimed): {CLAIMED}/99%"
 
 [node name="score" type="Label" parent="Node2D"]
 offset_left = 756.075
-offset_top = 399.954
+offset_top = 407.935
 offset_right = 1137.07
-offset_bottom = 426.954
+offset_bottom = 434.935
 text = "Score (turns used): {TURNS}"
 
 [node name="playing_field" type="ColorRect" parent="Node2D"]
@@ -91,18 +96,18 @@ script = ExtResource("3_03qtw")
 visible = false
 
 [node name="you lost" type="Label" parent="Node2D/lost"]
-offset_left = 756.075
-offset_top = 488.722
-offset_right = 1137.07
-offset_bottom = 515.722
+offset_left = 760.075
+offset_top = 543.581
+offset_right = 1141.07
+offset_bottom = 570.581
 theme_override_colors/font_color = Color(0.862745, 0, 0, 1)
 text = "You lost. :(  Try again?"
 
 [node name="buttons" type="HBoxContainer" parent="Node2D/lost"]
 offset_left = 760.075
-offset_top = 543.579
+offset_top = 583.477
 offset_right = 941.075
-offset_bottom = 583.579
+offset_bottom = 623.477
 metadata/_edit_group_ = true
 
 [node name="TryAgain" type="Button" parent="Node2D/lost/buttons"]
@@ -119,18 +124,18 @@ text = "Main Menu"
 visible = false
 
 [node name="you lost2" type="Label" parent="Node2D/won"]
-offset_left = 756.075
-offset_top = 488.722
-offset_right = 1137.07
-offset_bottom = 515.722
+offset_left = 760.075
+offset_top = 543.581
+offset_right = 1141.07
+offset_bottom = 570.581
 theme_override_colors/font_color = Color(0.415686, 0.968627, 0.266667, 1)
 text = "You won! :) Play again?"
 
 [node name="buttons2" type="HBoxContainer" parent="Node2D/won"]
 offset_left = 760.075
-offset_top = 543.579
+offset_top = 583.477
 offset_right = 941.075
-offset_bottom = 583.579
+offset_bottom = 623.477
 metadata/_edit_group_ = true
 
 [node name="TryAgain" type="Button" parent="Node2D/won/buttons2"]
@@ -143,9 +148,34 @@ layout_mode = 2
 theme = SubResource("Theme_fryca")
 text = "Main Menu"
 
+[node name="exit" type="Button" parent="Node2D"]
+offset_left = 965.096
+offset_top = 596.443
+offset_right = 1136.1
+offset_bottom = 627.443
+theme = ExtResource("4_pd1oy")
+text = "Exit to Main Menu"
+
+[node name="level_win_sound" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("2_1g7j2")
+
+[node name="claim_sound" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("6_6mqeq")
+volume_db = -8.0
+
+[node name="danger" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("7_2uaug")
+
+[node name="illegal" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("8_r6hl3")
+
+[node name="level_lose_sound" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("9_aw07f")
+
 [connection signal="gui_input" from="Node2D/playing_field" to="Node2D" method="_on_gui_input"]
 [connection signal="rect_drawn" from="Node2D/playing_field/dragbox" to="Node2D" method="turn"]
 [connection signal="pressed" from="Node2D/lost/buttons/TryAgain" to="Node2D" method="new_game"]
 [connection signal="pressed" from="Node2D/lost/buttons/MainMenu" to="Node2D" method="exit_to_menu"]
 [connection signal="pressed" from="Node2D/won/buttons2/TryAgain" to="Node2D" method="new_game"]
 [connection signal="pressed" from="Node2D/won/buttons2/MainMenu" to="Node2D" method="exit_to_menu"]
+[connection signal="pressed" from="Node2D/exit" to="Node2D" method="exit_to_menu"]

@@ -46,28 +46,36 @@ func new_game():
 func should_win():
 	return percent_claimed > goal_percent_claimed
 
-func claim(rect: Rect2):
-	%dragbox.acknowledge()
+func _claim(rect: Rect2, color: Color):
 	# Make a highlighted claim for what you claimed
 	var c = ColorRect.new()
 	c.position = rect.position
 	c.size = rect.size
-	c.color = singleplayer_claim_color
+	c.color = color
 	%claims.add_child(c)
+	return c
+
+func claim(rect: Rect2):
+	%dragbox.acknowledge()
 	
+	var c = _claim(rect, singleplayer_claim_color)
 	percent_claimed += c.get_rect().get_area() / $playing_field.get_rect().get_area()
-	
-	# TODO: Play a happy noise
 	
 	if should_win():
 		win_game()
+	else:
+		Sounds.play($claim_sound)
 	
 func highlight(mine: Mine):
 	# Highlight the mine
-	# TODO: Play a danger ding
+	Sounds.play($danger)
 	mine.reveal()
 	
-	# TODO: Wait a second or two while fading preview box
+	%dragbox.disable()
+	print("Before fade ", Time.get_ticks_msec())
+	await %dragbox.fade()
+	print("After fade ", Time.get_ticks_msec())
+	%dragbox.enable()
 	%dragbox.acknowledge()
 
 func lose_game_mines(mines: Array[Mine]):
@@ -77,21 +85,23 @@ func lose_game_mines(mines: Array[Mine]):
 		mine.reveal() 
 		mine.flash(0)
 		mine.explode() 
-	# TODO: Add your rectangle as a claim, maybe in another color
 	%dragbox.acknowledge()
 	lose_game()
 
 func lose_game():
+	Sounds.play($level_lose_sound)
 	$lost.show()
+	$exit.hide()
 	%dragbox.disable()
 
 func win_game():
-	# TODO: Happy noise
+	Sounds.play($level_win_sound)
 	$won.show()
+	$exit.hide()
 	%dragbox.disable()
 
 func _ready():
-	generate_mines(20)
+	generate_mines(10)
 
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == 1:
