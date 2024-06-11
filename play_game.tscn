@@ -26,27 +26,19 @@ offset_right = 1108.0
 offset_bottom = 58.0
 theme_override_colors/font_color = Color(0.641697, 0.148247, 0.142053, 1)
 theme_override_font_sizes/font_size = 29
-text = "Minefield"
+text = "game_name"
 
 [node name="settings" type="Label" parent="Node2D"]
 offset_left = 803.08
 offset_top = 57.849
 offset_right = 1108.08
 offset_bottom = 106.849
-text = "Difficulty: Medium (10 mines)"
 
 [node name="rules" type="Label" parent="Node2D"]
 offset_left = 756.075
 offset_top = 172.55
 offset_right = 1137.07
 offset_bottom = 325.55
-text = "Rules:
-
-- You draw one box at a time.
-- If your box contains 2+ mines, you lose.
-- If your box contains 1 mine, you reveal the mine
-- If your box contains 0 mines, you claim the box.
-"
 
 [node name="call to action" type="Label" parent="Node2D"]
 offset_left = 212.0
@@ -55,7 +47,14 @@ offset_right = 496.0
 offset_bottom = 83.0
 text = "Draw a box below using your mouse."
 
+[node name="leaderboard" type="VBoxContainer" parent="Node2D"]
+offset_left = 756.0
+offset_top = 375.0
+offset_right = 1136.0
+offset_bottom = 544.0
+
 [node name="goal" type="Label" parent="Node2D"]
+visible = false
 offset_left = 756.075
 offset_top = 375.021
 offset_right = 1137.07
@@ -63,6 +62,7 @@ offset_bottom = 398.021
 text = "Goal (map claimed): {CLAIMED}/99%"
 
 [node name="score" type="Label" parent="Node2D"]
+visible = false
 offset_left = 756.075
 offset_top = 407.935
 offset_right = 1137.07

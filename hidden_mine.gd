@@ -3,6 +3,7 @@ class_name Mine extends Area2D
 @export var revealed_color : Color
 @export var hidden_color : Color
 var flashRemaining : float = 0
+signal revealed
 
 func _ready():
 	hidden()
@@ -13,7 +14,9 @@ func hidden():
 
 ## Show the mine for the rest of the game
 func reveal():
-	self.show()
+	if not visible:
+		revealed.emit()
+	show()
 	$CollisionShape2D/Polygon2D.color = revealed_color
 	flash(2)
 
