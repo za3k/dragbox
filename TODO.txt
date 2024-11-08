@@ -1,0 +1,3 @@
+When you win, make mines visible
+Overlapping areas bug
+Drag should be able to start in a claim
